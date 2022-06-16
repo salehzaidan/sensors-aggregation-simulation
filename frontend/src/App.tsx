@@ -23,6 +23,7 @@ const COLORS = {
 
 function App() {
   const [sensorData, setSensorData] = useState<SensorData>({});
+  const [isRunning, setIsRunning] = useState(true);
 
   const updateData = (newData: { [roomArea: string]: SensorValue }) => {
     const data: SensorData = {};
@@ -32,13 +33,30 @@ function App() {
     setSensorData(data);
   };
 
-  useInterval(() => {
-    fetchSensorData().then(updateData);
-  }, FETCH_INTERVAL_DELAY);
+  const handleButtonClick = () => {
+    setIsRunning(!isRunning);
+  };
+
+  useInterval(
+    () => {
+      fetchSensorData().then(updateData);
+    },
+    isRunning ? FETCH_INTERVAL_DELAY : null
+  );
 
   return (
     <div className="App">
       <h1 className="App-title">Sensors Aggregation Simulation</h1>
+
+      <button
+        onClick={handleButtonClick}
+        className={`App-button ${
+          isRunning ? 'App-button_stop' : 'App-button_start'
+        }`}
+      >
+        {isRunning ? 'Stop' : 'Start'}
+      </button>
+
       {Object.keys(sensorData).length === 0 ? (
         <p>Loading</p>
       ) : (

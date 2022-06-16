@@ -10,6 +10,31 @@
   text-align: center;
 }
 
+.App-button {
+  margin-bottom: 1rem;
+  appearance: none;
+  cursor: pointer;
+  border: 1px solid gray;
+  padding: 0.5rem 1rem;
+}
+
+.App-button_start {
+  background-color: hsl(140, 70%, 55%);
+}
+
+.App-button_start:hover {
+  background-color: hsl(140, 70%, 45%);
+}
+
+.App-button_stop {
+  color: white;
+  background-color: hsl(0, 70%, 55%);
+}
+
+.App-button_stop:hover {
+  background-color: hsl(0, 70%, 45%);
+}
+
 .App-roomContainer {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
