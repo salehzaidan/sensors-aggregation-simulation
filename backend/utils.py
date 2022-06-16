@@ -4,16 +4,16 @@ import os
 import pandas as pd
 
 
-def store_value(file: str, value: dict):
+def store_value(file: str, values: list):
     if os.path.isfile(file):
         if os.stat(file).st_size == 0:  # JSON file is empty
-            values = {"array": []}
+            new_values = {"array": []}
         else:
-            values = json.load(open(file, "r"))
-        values["array"].append(value)
-        json.dump(values, open(file, "w"))
+            new_values = json.load(open(file, "r"))
+        new_values["array"] += values
+        json.dump(new_values, open(file, "w"))
     else:
-        json.dump({"array": [value]}, open(file, "a"))
+        json.dump({"array": values}, open(file, "a"))
 
 
 def nest(d: dict) -> dict:
