@@ -10,8 +10,15 @@
   text-align: center;
 }
 
+.App-loading {
+  text-align: center;
+}
+
 .App-button {
+  display: block;
   margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
   appearance: none;
   cursor: pointer;
   border: 1px solid gray;
@@ -35,17 +42,23 @@
   background-color: hsl(0, 70%, 45%);
 }
 
-.App-roomContainer {
+.App-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.App-chartContainer {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
 }
 
-.App-dataContainer {
+.Chart {
   border: 1px solid black;
 }
 
-.App-dataContainer h2 {
+.Chart h2 {
   background-color: lightgray;
   border-bottom: 1px solid black;
   margin-top: 0;

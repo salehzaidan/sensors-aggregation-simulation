@@ -1,25 +1,10 @@
-import { useState } from 'react';
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
 import './App.css';
+import { useState } from 'react';
+import Chart from './components/Chart';
 import { useInterval } from './hooks/useInterval';
 import { fetchSensorData, SensorData, SensorValue } from './lib';
 
 const FETCH_INTERVAL_DELAY = 2000; // in milliseconds
-const COLORS = {
-  blue: '#2563eb',
-  red: '#dc2626',
-  yellow: '#ca8a04',
-  green: '#16a34a',
-};
 
 function App() {
   const [sensorData, setSensorData] = useState<SensorData>({});
@@ -48,107 +33,31 @@ function App() {
     <div className="App">
       <h1 className="App-title">Sensors Aggregation Simulation</h1>
 
-      <button
-        onClick={handleButtonClick}
-        className={`App-button ${
-          isRunning ? 'App-button_stop' : 'App-button_start'
-        }`}
-      >
-        {isRunning ? 'Stop' : 'Start'}
-      </button>
-
       {Object.keys(sensorData).length === 0 ? (
-        <p>Loading</p>
+        <p className="App-loading">Loading</p>
       ) : (
-        <div className="App-roomContainer">
-          <div className="App-dataContainer">
-            <h2>Temperature</h2>
-            <ResponsiveContainer aspect={4 / 3}>
-              <LineChart
-                data={sensorData.roomArea1}
-                margin={{ right: 40, bottom: 10, top: 10, left: 0 }}
-              >
-                <XAxis />
-                <YAxis domain={['auto', 'auto']} />
-                <CartesianGrid />
-                <Tooltip />
-                <Legend />
-                <Line
-                  dataKey="temperature.min"
-                  stroke={COLORS.blue}
-                  dot={false}
-                  name="Min"
-                  isAnimationActive={false}
-                />
-                <Line
-                  dataKey="temperature.max"
-                  stroke={COLORS.red}
-                  dot={false}
-                  name="Max"
-                  isAnimationActive={false}
-                />
-                <Line
-                  dataKey="temperature.median"
-                  stroke={COLORS.yellow}
-                  dot={false}
-                  name="Median"
-                  isAnimationActive={false}
-                />
-                <Line
-                  dataKey="temperature.mean"
-                  stroke={COLORS.green}
-                  dot={false}
-                  name="Average"
-                  isAnimationActive={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+        <>
+          <button
+            onClick={handleButtonClick}
+            className={`App-button ${
+              isRunning ? 'App-button_stop' : 'App-button_start'
+            }`}
+          >
+            {isRunning ? 'Stop' : 'Start'}
+          </button>
 
-          <div className="App-dataContainer">
-            <h2>Humidity</h2>
-            <ResponsiveContainer aspect={4 / 3}>
-              <LineChart
-                data={sensorData.roomArea1}
-                margin={{ right: 40, bottom: 10, top: 10, left: 0 }}
-              >
-                <XAxis />
-                <YAxis domain={['auto', 'auto']} />
-                <CartesianGrid />
-                <Tooltip />
-                <Legend />
-                <Line
-                  dataKey="humidity.min"
-                  stroke={COLORS.blue}
-                  dot={false}
-                  name="Min"
-                  isAnimationActive={false}
-                />
-                <Line
-                  dataKey="humidity.max"
-                  stroke={COLORS.red}
-                  dot={false}
-                  name="Max"
-                  isAnimationActive={false}
-                />
-                <Line
-                  dataKey="humidity.median"
-                  stroke={COLORS.yellow}
-                  dot={false}
-                  name="Median"
-                  isAnimationActive={false}
-                />
-                <Line
-                  dataKey="humidity.mean"
-                  stroke={COLORS.green}
-                  dot={false}
-                  name="Average"
-                  isAnimationActive={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+          <div className="App-wrapper">
+            {Object.keys(sensorData).map((roomArea) => (
+              <div>
+                <h2>{roomArea}</h2>
+                <div className="App-chartContainer">
+                  <Chart variable="temperature" data={sensorData[roomArea]} />
+                  <Chart variable="humidity" data={sensorData[roomArea]} />
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+        </>
       )}
     </div>
   );
