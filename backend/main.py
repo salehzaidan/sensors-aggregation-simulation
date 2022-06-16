@@ -10,6 +10,6 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    value = engine.generate_random_value()
+    value = engine.generate_random_values()
     utils.store_value(JSON_FILE, value)
     return engine.aggregate_values(JSON_FILE)
