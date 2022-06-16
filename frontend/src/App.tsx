@@ -1,43 +1,28 @@
 import { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useInterval } from './hooks/useInterval';
+import { fetchSensorData, SensorData, SensorValue } from './lib';
+
+const FETCH_INTERVAL_DELAY = 2000; // in milliseconds
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [sensorData, setSensorData] = useState<SensorData>({});
+
+  const updateData = (newData: { [roomArea: string]: SensorValue }) => {
+    const data: SensorData = {};
+    for (const roomArea of Object.keys(newData)) {
+      data[roomArea] = [...(sensorData?.[roomArea] || []), newData[roomArea]];
+    }
+    setSensorData(data);
+  };
+
+  useInterval(() => {
+    fetchSensorData().then(updateData);
+  }, FETCH_INTERVAL_DELAY);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div>
+      <h1>Sensors Aggregation Simulation</h1>
+      <pre>{JSON.stringify(sensorData, null, 2)}</pre>
     </div>
   );
 }
