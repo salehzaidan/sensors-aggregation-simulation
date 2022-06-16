@@ -81,7 +81,7 @@
 .Chart-latestDataItem {
   display: flex;
   flex-direction: column;
-  padding: 0.25rem;
+  padding: 0.5rem;
   justify-items: center;
   align-items: center;
   border: 1px solid gray;

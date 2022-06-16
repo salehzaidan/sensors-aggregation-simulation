@@ -20,6 +20,10 @@ const COLORS = {
 const LABEL = {
   temperature: 'Temperature',
   humidity: 'Humidity',
+  min: 'Min',
+  max: 'Max',
+  median: 'Median',
+  mean: 'Average',
 };
 
 interface ChartProps {
@@ -43,34 +47,17 @@ function Chart({ variable, data }: ChartProps) {
           <CartesianGrid />
           <Tooltip />
           <Legend />
-          <Line
-            dataKey={`${variable}.min`}
-            stroke={COLORS.blue}
-            dot={false}
-            name="Min"
-            isAnimationActive={false}
-          />
-          <Line
-            dataKey={`${variable}.max`}
-            stroke={COLORS.red}
-            dot={false}
-            name="Max"
-            isAnimationActive={false}
-          />
-          <Line
-            dataKey={`${variable}.median`}
-            stroke={COLORS.yellow}
-            dot={false}
-            name="Median"
-            isAnimationActive={false}
-          />
-          <Line
-            dataKey={`${variable}.mean`}
-            stroke={COLORS.green}
-            dot={false}
-            name="Average"
-            isAnimationActive={false}
-          />
+          {['min', 'max', 'median', 'mean'].map((field, i) => (
+            <Line
+              dataKey={`${variable}.${field}`}
+              stroke={Object.values(COLORS)[i]}
+              dot={false}
+              // @ts-ignore
+              name={LABEL[field]}
+              isAnimationActive={false}
+              key={i}
+            />
+          ))}
         </LineChart>
       </ResponsiveContainer>
 
@@ -82,7 +69,8 @@ function Chart({ variable, data }: ChartProps) {
             key={i}
           >
             <p>{value.toFixed(1)}</p>
-            <p>{field}</p>
+            {/* @ts-ignore */}
+            <p>{LABEL[field]}</p>
           </div>
         ))}
       </div>
