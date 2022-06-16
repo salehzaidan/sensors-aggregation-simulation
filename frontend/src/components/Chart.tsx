@@ -28,10 +28,12 @@ interface ChartProps {
 }
 
 function Chart({ variable, data }: ChartProps) {
+  const latestData = data.map((data) => data[variable])[data.length - 1];
+
   return (
     <div className="Chart">
       <h2>{LABEL[variable]}</h2>
-      <ResponsiveContainer aspect={4 / 3}>
+      <ResponsiveContainer aspect={4 / 3} height="auto">
         <LineChart
           data={data}
           margin={{ right: 40, bottom: 10, top: 10, left: 0 }}
@@ -71,6 +73,19 @@ function Chart({ variable, data }: ChartProps) {
           />
         </LineChart>
       </ResponsiveContainer>
+
+      <div className="Chart-latestDataContainer">
+        {Object.entries(latestData).map(([field, value], i) => (
+          <div
+            className="Chart-latestDataItem"
+            style={{ backgroundColor: `${Object.values(COLORS)[i]}99` }}
+            key={i}
+          >
+            <p>{value.toFixed(1)}</p>
+            <p>{field}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

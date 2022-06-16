@@ -70,3 +70,32 @@
   line-height: 1;
   text-align: center;
 }
+
+.Chart-latestDataContainer {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  justify-items: center;
+  padding: 1rem;
+}
+
+.Chart-latestDataItem {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem;
+  justify-items: center;
+  align-items: center;
+  border: 1px solid gray;
+  aspect-ratio: 1;
+}
+
+.Chart-latestDataItem p {
+  margin: 0;
+}
+
+.Chart-latestDataItem p:first-child {
+  font-size: 1.5rem;
+}
+
+.Chart-latestDataItem p:last-child {
+  font-weight: 500;
+}

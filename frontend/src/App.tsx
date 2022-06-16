@@ -48,7 +48,7 @@ function App() {
 
           <div className="App-wrapper">
             {Object.keys(sensorData).map((roomArea) => (
-              <div>
+              <div key={roomArea}>
                 <h2>{roomArea}</h2>
                 <div className="App-chartContainer">
                   <Chart variable="temperature" data={sensorData[roomArea]} />
