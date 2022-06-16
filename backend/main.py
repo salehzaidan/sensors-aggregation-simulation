@@ -12,4 +12,4 @@ app = FastAPI()
 def read_root():
     value = engine.generate_random_value()
     utils.store_value(JSON_FILE, value)
-    return value
+    return engine.aggregate_values(JSON_FILE)
